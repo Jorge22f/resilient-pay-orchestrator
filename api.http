@@ -1,0 +1,37 @@
+@baseUrl = http://localhost:8080
+
+### 1. Health Check
+GET {{baseUrl}}/health
+
+### 2. Initial Charge Request
+# This should take ~2 seconds and return SUCCESS
+POST {{baseUrl}}/payments/charge
+Content-Type: application/json
+x-idempotency-key: unique-req-001
+
+{
+    "amount": 2500,
+    "currency": "USD"
+}
+
+### 3. Duplicate Charge Request
+# This should return the SAME response INSTANTLY
+POST {{baseUrl}}/payments/charge
+Content-Type: application/json
+x-idempotency-key: unique-req-001
+
+{
+    "amount": 2500,
+    "currency": "USD"
+}
+
+### 4. Concurrent Request Test
+# Try clicking "Send Request" on this twice quickly
+POST {{baseUrl}}/payments/charge
+Content-Type: application/json
+x-idempotency-key: concurrent-test-999
+
+{
+    "amount": 100,
+    "currency": "USD"
+}

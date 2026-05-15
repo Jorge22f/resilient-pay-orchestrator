@@ -1,0 +1,69 @@
+services:
+  # Relational DB for Ledger & Transactions
+  db:
+    image: postgres:15-alpine
+    container_name: payment-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: your_secure_password # Change this!
+      POSTGRES_DB: payment_orchestrator
+    ports:
+      - "5432:5432"
+    volumes:
+      - payment_db_data:/var/lib/postgresql/data
+
+  # Idempotency & Caching
+  redis:
+    image: redis:7-alpine
+    container_name: payment-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - payment_redis_data:/data
+
+  # Orchestrator Application
+  app:
+    build:
+      context: .
+      target: development
+    env_file:
+      - .env
+    ports:
+      - "8080:3000" # Access at http://localhost:8080
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    command: >
+      sh -c "npx knex migrate:latest && npx tsx watch src/index.ts"
+    container_name: orchestrator-api
+    restart: always
+    depends_on:
+      - db
+      - redis
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: payment-metrics
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    depends_on:
+      - app
+  
+  grafana:
+    image: grafana/grafana:latest
+    container_name: payment-dashboard
+    ports:
+      - "3001:3000" # Access at http://localhost:3001
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    depends_on:
+      - prometheus
+
+# Persistent Storage
+volumes:
+  payment_db_data:
+  payment_redis_data:
