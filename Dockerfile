@@ -1,42 +1,30 @@
-# Stage 1: Development
-FROM node:20-alpine AS development
-
-RUN apk update && apk upgrade --no-cache
+# STAGE 1: Base (Shared dependencies)
+FROM node:20-alpine AS base
 RUN apk add --no-cache python3 make g++
-
 WORKDIR /usr/src/app
-
 COPY package*.json ./
+
+# STAGE 2: Development (For local coding)
+FROM base AS development
 RUN npm install
-
 COPY . .
-
 EXPOSE 3000
 
-CMD ["npx", "tsx", "watch", "src/index.ts"]
-
-
-# Stage 2: Production Build
-FROM node:20-alpine AS build
-
-WORKDIR /usr/src/app
-COPY package*.json ./
+# STAGE 3: Builder (For production compilation)
+FROM base AS builder
 RUN npm install
 COPY . .
-RUN npx tsc
+RUN npm run build
 
-
-# Stage 3: Production Runtime (The "Staff" Lean Move)
+# STAGE 4: Production (The final tiny image)
 FROM node:20-alpine AS production
-
-RUN apk update && apk upgrade --no-cache
 WORKDIR /usr/src/app
-
-COPY package*.json ./
-RUN npm install --only=production
-
-COPY --from=build /usr/src/app/dist ./dist
-
+ENV NODE_ENV=production
+COPY --from=builder /usr/src/app/dist ./dist
+COPY --from=builder /usr/src/app/package*.json ./
+COPY --from=builder /usr/src/app/knexfile.js ./
+COPY --from=builder /usr/src/app/migrations ./migrations
+RUN npm install --omit=dev
 USER node
-
+EXPOSE 3000
 CMD ["node", "dist/index.js"]

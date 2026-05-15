@@ -30,6 +30,9 @@ services:
       target: development
     env_file:
       - .env
+    environment:
+      - CHOKIDAR_USEPOLLING=1
+      - CHOKIDAR_INTERVAL=500
     ports:
       - "8080:3000" # Access at http://localhost:8080
     volumes:
