@@ -40,7 +40,7 @@ Infrastructure is managed via **Terraform**, ensuring that the PostgreSQL RDS in
 ### Getting Started
 1.  **Clone the Repo**:
     ```bash
-    git clone [https://github.com/your-username/resilient-pay-orchestrator.git](https://github.com/your-username/resilient-pay-orchestrator.git)
+    git clone [https://github.com/Jorge22f/resilient-pay-orchestrator.git](https://github.com/Jorge22f/resilient-pay-orchestrator.git)
     cd resilient-pay-orchestrator
     ```
 2.  **Spin up the Stack**:
