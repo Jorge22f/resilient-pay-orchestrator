@@ -51,7 +51,7 @@ jobs:
         run: npm ci
 
       - name: Check Code Formatting (Prettier)
-        run: npm run format:check || echo "Run 'npm run format' locally to fix"
+        run: npm run format:check
 
       - name: Run Linter (ESLint)
         run: npm run lint

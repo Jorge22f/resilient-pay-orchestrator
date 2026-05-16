@@ -28,6 +28,8 @@
     "@types/node": "^25.8.0",
     "@types/pg": "^8.20.0",
     "axios": "^1.16.1",
+    "eslint": "^10.4.0",
+    "prettier": "^3.8.3",
     "tsx": "^4.0.0",
     "typescript": "^6.0.3"
   }
