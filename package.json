@@ -8,7 +8,8 @@
     "dev": "tsx watch src/index.ts",
     "lint": "eslint .",
     "format:check": "prettier --check \"src/**/*.ts\"",
-    "test": "mocha -r ts-node/register \"src/**/*.test.ts\""
+    "test": "mocha -r ts-node/register \"src/**/*.test.ts\"",
+    "migrate:latest": "knex migrate:latest --knexfile knexfile.ts"
   },
   "keywords": [],
   "author": "",
@@ -26,7 +27,9 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@types/chai": "^5.2.3",
     "@types/express": "^5.0.6",
+    "@types/mocha": "^10.0.10",
     "@types/node": "^25.8.0",
     "@types/pg": "^8.20.0",
     "axios": "^1.16.1",

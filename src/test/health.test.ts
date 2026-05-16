@@ -1,7 +1,8 @@
 import { expect } from "chai";
 import knex from "knex";
-import Redis from "ioredis";
+import { Redis } from "ioredis";
 import knexConfig from "../../knexfile.js";
+import type { Knex } from "knex";
 
 describe("Resilient Pay Orchestrator Base Integration Suite", () => {
   let db: any;
@@ -18,8 +19,10 @@ describe("Resilient Pay Orchestrator Base Integration Suite", () => {
       ? process.env.REDIS_HOST || "localhost"
       : "127.0.0.1";
 
+    const configs = knexConfig as Record<string, Knex.Config>;
+
     const localKnexConfig = {
-      ...knexConfig.development,
+      ...configs.development,
       connection: {
         host: dbHost,
         user: process.env.DB_USER || "admin",
