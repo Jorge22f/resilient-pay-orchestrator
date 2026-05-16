@@ -7,3 +7,5 @@ dist/
 docker/db_data/
 terraform/.terraform/
 terraform/*.tfstate*
+localstack/
+.terraform.lock.hcl
