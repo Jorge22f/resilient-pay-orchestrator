@@ -24,7 +24,7 @@ describe("Resilient Pay Orchestrator Base Integration Suite", () => {
         host: dbHost,
         user: process.env.DB_USER || "admin",
         password: process.env.DB_PASSWORD || "test_secure_password",
-        database: process.env.DB_NAME || "payment_orchestrator",
+        database: process.env.DB_NAME || "payment_orchestrator_test",
         port: 5432,
       },
     };

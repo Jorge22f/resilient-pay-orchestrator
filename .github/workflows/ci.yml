@@ -69,4 +69,7 @@ jobs:
         env:
           NODE_ENV: test
           DB_HOST: localhost
+          DB_USER: admin
+          DB_PASSWORD: test_secure_password
+          DB_NAME: payment_orchestrator_test
           REDIS_HOST: localhost
