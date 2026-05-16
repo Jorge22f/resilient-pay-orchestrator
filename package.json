@@ -4,11 +4,11 @@
   "version": "1.0.0",
   "main": "dist/index.js",
   "scripts": {
+    "start": "tsx src/index.ts",
     "dev": "tsx watch src/index.ts",
-    "build": "tsc",
-    "start": "node dist/index.js",
-    "migrate": "knex migrate:latest",
-    "test:load": "tsx src/scripts/load-test.ts"
+    "lint": "eslint . --ext .ts",
+    "format:check": "prettier --check \"src/**/*.ts\"",
+    "test": "mocha"
   },
   "keywords": [],
   "author": "",
