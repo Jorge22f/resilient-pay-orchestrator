@@ -1,5 +1,5 @@
 import knex from "knex";
-// @ts-ignore
+// @ts-expect-error- Knex dialect types mismatch with native driver layout
 import config from "../../knexfile.js";
 
 const environment = (process.env.NODE_ENV ||

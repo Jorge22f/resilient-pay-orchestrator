@@ -2,7 +2,6 @@ import axios from "axios";
 
 const API_URL = "http://localhost:8080/payments/charge";
 const TOTAL_REQUESTS = 100;
-const CONCURRENCY = 10;
 
 async function runTest() {
   console.log(`🚀 Starting load test: ${TOTAL_REQUESTS} requests...`);
@@ -27,7 +26,7 @@ async function runTest() {
   const success = results.filter((r) => r.status === 200).length;
   const duplicates = results.filter(
     (r) => r.status === 425 || (r.status === 200 && r.data.isCached),
-  ).length; // Adjust based on your logic
+  ).length;
   const errors = results.filter((r) => r.status >= 500).length;
 
   const end = performance.now();

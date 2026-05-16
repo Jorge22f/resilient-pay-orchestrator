@@ -10,7 +10,7 @@ declare module "opossum" {
   }
 
   class CircuitBreaker extends EventEmitter {
-    constructor(action: Function, options?: Options);
+    constructor(action: (...args: any[]) => void, options?: Options);
     fire(...args: any[]): Promise<any>;
     open(): void;
     close(): void;

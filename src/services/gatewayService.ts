@@ -1,7 +1,7 @@
 import CircuitBreaker from "opossum";
 
 // Mock function representing a real API call
-const callExternalGateway = async (payload: any) => {
+const callExternalGateway = async (_payload: any) => {
   // Simulate a potential 5% failure rate for testing
   if (Math.random() < 0.05) throw new Error("Gateway Timeout");
 
