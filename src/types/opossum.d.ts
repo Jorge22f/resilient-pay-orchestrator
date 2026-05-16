@@ -1,5 +1,5 @@
-declare module 'opossum' {
-  import { EventEmitter } from 'events';
+declare module "opossum" {
+  import { EventEmitter } from "events";
 
   interface Options {
     timeout?: number;

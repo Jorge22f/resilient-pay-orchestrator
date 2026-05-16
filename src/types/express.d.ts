@@ -1,4 +1,4 @@
-import { RedisClientType } from 'redis';
+import { RedisClientType } from "redis";
 
 declare global {
   namespace Express {

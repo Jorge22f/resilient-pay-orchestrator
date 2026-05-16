@@ -1,14 +1,14 @@
-import { Router, Request, Response } from 'express';
-import { redisClient } from '../config/redis.js';
+import { Router, Request, Response } from "express";
+import { redisClient } from "../config/redis.js";
 
 const router = Router();
 
-router.get('/', async (req: Request, res: Response) => {
-  const redisStatus = redisClient.isOpen ? 'Healthy' : 'Unhealthy';
+router.get("/", async (req: Request, res: Response) => {
+  const redisStatus = redisClient.isOpen ? "Healthy" : "Unhealthy";
   res.json({
-    status: 'Server is up',
+    status: "Server is up",
     redis: redisStatus,
-    timestamp: new Date().toISOString()
+    timestamp: new Date().toISOString(),
   });
 });
 

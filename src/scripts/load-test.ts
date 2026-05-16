@@ -1,6 +1,6 @@
-import axios from 'axios';
+import axios from "axios";
 
-const API_URL = 'http://localhost:8080/payments/charge';
+const API_URL = "http://localhost:8080/payments/charge";
 const TOTAL_REQUESTS = 100;
 const CONCURRENCY = 10;
 
@@ -10,20 +10,25 @@ async function runTest() {
 
   const requests = Array.from({ length: TOTAL_REQUESTS }).map((_, i) => {
     // Generate a mix of unique and duplicate keys
-    const isDuplicate = i % 10 === 0; 
-    const key = isDuplicate ? 'duplicate-key-static' : `unique-key-${Math.random().toString(36).substring(7)}`;
+    const isDuplicate = i % 10 === 0;
+    const key = isDuplicate
+      ? "duplicate-key-static"
+      : `unique-key-${Math.random().toString(36).substring(7)}`;
 
-    return axios.post(API_URL, 
-      { amount: 1000, currency: 'USD' },
-      { headers: { 'x-idempotency-key': key }, validateStatus: () => true }
+    return axios.post(
+      API_URL,
+      { amount: 1000, currency: "USD" },
+      { headers: { "x-idempotency-key": key }, validateStatus: () => true },
     );
   });
 
   const results = await Promise.all(requests);
-  
-  const success = results.filter(r => r.status === 200).length;
-  const duplicates = results.filter(r => r.status === 425 || (r.status === 200 && r.data.isCached)).length; // Adjust based on your logic
-  const errors = results.filter(r => r.status >= 500).length;
+
+  const success = results.filter((r) => r.status === 200).length;
+  const duplicates = results.filter(
+    (r) => r.status === 425 || (r.status === 200 && r.data.isCached),
+  ).length; // Adjust based on your logic
+  const errors = results.filter((r) => r.status >= 500).length;
 
   const end = performance.now();
   console.log(`
